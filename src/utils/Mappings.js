@@ -23,6 +23,12 @@ export default class Mappings {
 		this.pending = null;
 	}
 
+	addChunkOutroMapping(chunk, sourceIndex, sourcemapLocations, loc) {
+		if (this.hires || sourcemapLocations.has(chunk.end)) {
+			this.rawSegments.push([this.generatedCodeColumn, sourceIndex, loc.line, loc.column]);
+		}
+	}
+
 	addUneditedChunk(sourceIndex, chunk, original, loc, sourcemapLocations) {
 		let originalCharIndex = chunk.start;
 		let first = true;

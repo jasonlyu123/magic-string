@@ -301,6 +301,25 @@ describe('MagicString', () => {
 			assert.equal(loc.column, 9);
 		});
 
+		it('should correctly map content before append', () => {
+			const s = new MagicString('function Foo () {}');
+
+			s.appendLeft(8, '*');
+
+			const map = s.generateMap({
+				hires: true,
+				file: 'output.js',
+				source: 'input.js',
+				includeContent: true
+			});
+
+			const smc = new SourceMapConsumer(map);
+			
+			const loc = smc.originalPositionFor({ line: 1, column: 8 });
+			assert.strictEqual(loc.line, 1);
+			assert.strictEqual(loc.column, 8);
+		});
+
 		it('should yield consistent results between appendLeft and prependRight', () => {
 			const s1 = new MagicString('abcdefghijkl');
 			s1.appendLeft(6, 'X');

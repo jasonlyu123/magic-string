@@ -159,7 +159,10 @@ export default class MagicString {
 				mappings.addUneditedChunk(sourceIndex, chunk, this.original, loc, this.sourcemapLocations);
 			}
 
-			if (chunk.outro.length) mappings.advance(chunk.outro);
+			if (chunk.outro.length) {
+				mappings.addChunkOutroMapping(chunk, sourceIndex, this.sourcemapLocations, loc);
+				mappings.advance(chunk.outro);
+			}
 		});
 
 		return {
